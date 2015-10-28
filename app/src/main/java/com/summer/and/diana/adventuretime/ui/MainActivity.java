@@ -1,7 +1,9 @@
-package com.summer.and.diana.adventuretime;
+package com.summer.and.diana.adventuretime.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.summer.and.diana.adventuretime.R;
 
 public class MainActivity extends AppCompatActivity {
 
