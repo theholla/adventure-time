@@ -1,25 +1,32 @@
 package com.summer.and.diana.adventuretime.ui;
 
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.summer.and.diana.adventuretime.R;
+import com.summer.and.diana.adventuretime.adapters.GearAdapter;
 import com.summer.and.diana.adventuretime.models.Gear;
 import com.summer.and.diana.adventuretime.models.User;
 
-public class MyGearActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class MyGearActivity extends ListActivity {
     private SharedPreferences mPreferences;
     private User mUser;
     private EditText mItemEditText, mDescriptionEditText;
     private Button mAddGearButton;
     private String mCurrentUser;
+    private ListView mListView;
+    private ArrayList<Gear> mGearList;
+    private GearAdapter mAdapter;
 
 
     @Override
@@ -32,6 +39,11 @@ public class MyGearActivity extends AppCompatActivity {
         mItemEditText = (EditText) findViewById(R.id.itemEditText);
         mDescriptionEditText = (EditText) findViewById(R.id.descriptionEditText);
         mCurrentUser = mPreferences.getString("username", null);
+        mListView = getListView();
+        mGearList = (ArrayList) Gear.allFromUser(mUser);
+
+        mAdapter = new GearAdapter(this, mGearList);
+        setListAdapter(mAdapter);
 
         mAddGearButton.setOnClickListener(new View.OnClickListener() {
             @Override

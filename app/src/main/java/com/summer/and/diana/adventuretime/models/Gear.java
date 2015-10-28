@@ -5,9 +5,11 @@ import android.content.Context;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 import com.summer.and.diana.adventuretime.R;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.TimeZone;
 
 /**
@@ -87,5 +89,12 @@ public class Gear extends Model {
 
     public void setDescription(String description) {
         mDescription = description;
+    }
+
+    public static List allFromUser(User user) {
+        return new Select()
+                .from(Gear.class)
+                .where("lender = ?", user.getUsername())
+                .execute();
     }
 }
