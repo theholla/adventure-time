@@ -1,0 +1,1 @@
+ALTER TABLE Gear ADD COLUMN Users int ;

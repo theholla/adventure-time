@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.summer.and.diana.adventuretime.R;
@@ -16,6 +18,9 @@ import com.summer.and.diana.adventuretime.models.User;
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences mPreferences;
     private User mUser;
+    private Button mMyGearButton;
+    private Button mCheckedOutButton;
+    private Button mBrowseGearButton;
 
     private TextView mWelcomeUserText;
 
@@ -26,6 +31,33 @@ public class MainActivity extends AppCompatActivity {
 
         mPreferences = getApplicationContext().getSharedPreferences("adventuretime", Context.MODE_PRIVATE);
         mWelcomeUserText = (TextView) findViewById(R.id.welcomeUserText);
+        mMyGearButton = (Button) findViewById(R.id.myGearButton);
+        mCheckedOutButton = (Button) findViewById(R.id.checkedOutButton);
+        mBrowseGearButton = (Button) findViewById(R.id.browseGearButton);
+
+        mMyGearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MyGearActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mCheckedOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CheckedOutActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mBrowseGearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, BrowseGearActivity.class);
+                startActivity(intent);
+            }
+        });
 
         if (!isLoggedIn()) {
             Intent intent = new Intent(this, LoginActivity.class);

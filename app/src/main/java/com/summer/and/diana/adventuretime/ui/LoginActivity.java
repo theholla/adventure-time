@@ -42,8 +42,6 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString("username", username);
                 editor.commit();
 
-                //NOT WORKUNG YET - FIGURE OUT WHY!
-
                 if ( user != null ) {
                     if (user.getPassword().equals(password)) {
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
