@@ -16,4 +16,5 @@
     <string name="title_activity_checked_out">Checked Out</string>
     <string name="timeZone">America/Los Angeles</string>
     <string name="formatted_checkout_date">EEEE, MMMM d \'at\' h:mm</string>
+    <string name="title_activity_gear">Gear Item</string>
 </resources>

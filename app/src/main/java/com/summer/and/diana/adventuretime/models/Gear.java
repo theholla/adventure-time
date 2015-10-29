@@ -1,13 +1,16 @@
 package com.summer.and.diana.adventuretime.models;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.summer.and.diana.adventuretime.R;
+import com.summer.and.diana.adventuretime.ui.BrowseGearActivity;
 
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.TimeZone;
@@ -39,10 +42,10 @@ public class Gear extends Model {
 
     public Gear(String lender, String item, String description) {
         mLender = lender;
-        mBorrower = "";
+        //mBorrower = "";
         mItem = item;
         mDescription = description;
-        mCheckoutDate = 0;
+        //mCheckoutDate = 2;
     }
 
     public long getCheckoutDate() {
@@ -98,11 +101,28 @@ public class Gear extends Model {
                 .execute();
     }
 
-    public static List all() {
+    public static List all(String username) {
         return new Select()
                 .from(Gear.class)
+                .where("lender != ?", username)
                 .where("checkout_date = ?", 0)
                 .orderBy("item")
                 .execute();
+    }
+
+    public static Gear find(Gear gear) {
+        return new Select()
+                .from(Gear.class)
+                .where("_id = ?", gear.getId())
+                .executeSingle();
+    }
+
+    public void borrow() {
+        Gear item = Gear.find(this);
+        long borrowedAt = new Date().getTime();
+        item.setCheckoutDate(borrowedAt);
+        String borrower = "Test Person";
+        item.setBorrower(borrower);
+        item.save();
     }
 }
