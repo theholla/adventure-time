@@ -117,12 +117,20 @@ public class Gear extends Model {
                 .executeSingle();
     }
 
-    public void borrow() {
+    public void borrow(String username) {
         Gear item = Gear.find(this);
         long borrowedAt = new Date().getTime();
         item.setCheckoutDate(borrowedAt);
-        String borrower = "Test Person";
+        String borrower = username;
         item.setBorrower(borrower);
         item.save();
+    }
+
+    public static List allCheckedOut(String username) {
+        return new Select()
+                .from(Gear.class)
+                .where("borrower = ?", username)
+                .orderBy("item")
+                .execute();
     }
 }

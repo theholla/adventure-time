@@ -28,13 +28,14 @@ public class BrowseGearActivity extends ListActivity implements Serializable {
     private ArrayList<Gear> mGearList;
     private GearAdapter mAdapter;
     private ListView mListView;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_gear);
         mPreferences = getApplicationContext().getSharedPreferences("adventuretime", Context.MODE_PRIVATE);
-        String username = mPreferences.getString("username", null);
+        username = mPreferences.getString("username", null);
         mGearList = (ArrayList) Gear.all(username);
         mAdapter = new GearAdapter(this, mGearList);
         mListView = getListView();
@@ -45,7 +46,7 @@ public class BrowseGearActivity extends ListActivity implements Serializable {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Gear gear = mGearList.get(position);
                 Gear gearToBorrow = Gear.find(gear);
-                gearToBorrow.borrow();
+                gearToBorrow.borrow(username);
                 mGearList.remove(gear);
                 mAdapter.notifyDataSetChanged();
                 Toast toast = Toast.makeText(BrowseGearActivity.this, "Item Borrowed!", Toast.LENGTH_SHORT);
