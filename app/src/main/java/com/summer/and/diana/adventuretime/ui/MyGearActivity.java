@@ -4,14 +4,17 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.summer.and.diana.adventuretime.R;
 import com.summer.and.diana.adventuretime.adapters.GearAdapter;
@@ -28,6 +31,7 @@ public class MyGearActivity extends ListActivity {
     private String mCurrentUser;
     private ArrayList<Gear> mGearList;
     private GearAdapter mAdapter;
+    private ListView mListView;
 
 
     @Override
@@ -42,15 +46,11 @@ public class MyGearActivity extends ListActivity {
         mDescriptionEditText = (EditText) findViewById(R.id.descriptionEditText);
         mCurrentUser = mPreferences.getString("username", null);
         mGearList = (ArrayList) Gear.allFromUser(mCurrentUser);
-
-//         Might need these to start initial list
-//        Gear newGear = new Gear(mCurrentUser, "Backpack", "Women's Large");
-//        newGear.save();
-//        mGearList.add(newGear);
+        mListView = getListView();
 
         mUser = User.find(mCurrentUser);
 
-        mAdapter = new GearAdapter(this, mGearList);
+        mAdapter = new GearAdapter(this, mGearList, R.layout.gear_list_item);
         setListAdapter(mAdapter);
 
         mAddGearButton.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +71,21 @@ public class MyGearActivity extends ListActivity {
 
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        });
+
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Gear gear = mGearList.get(position);
+                Gear gearToRemove = Gear.find(gear);
+                gearToRemove.delete();
+                mGearList.remove(gear);
+                mAdapter.notifyDataSetChanged();
+                Toast toast = Toast.makeText(MyGearActivity.this, "You have removed this item from your library!", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                toast.show();
+                return false;
             }
         });
     }

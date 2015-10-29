@@ -2,17 +2,15 @@ package com.summer.and.diana.adventuretime.ui;
 
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.summer.and.diana.adventuretime.R;
@@ -21,7 +19,6 @@ import com.summer.and.diana.adventuretime.models.Gear;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class BrowseGearActivity extends ListActivity implements Serializable {
     private SharedPreferences mPreferences;
@@ -29,6 +26,7 @@ public class BrowseGearActivity extends ListActivity implements Serializable {
     private GearAdapter mAdapter;
     private ListView mListView;
     private String username;
+    private TextView mNoItemsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +35,17 @@ public class BrowseGearActivity extends ListActivity implements Serializable {
         mPreferences = getApplicationContext().getSharedPreferences("adventuretime", Context.MODE_PRIVATE);
         username = mPreferences.getString("username", null);
         mGearList = (ArrayList) Gear.all(username);
-        mAdapter = new GearAdapter(this, mGearList);
+        mAdapter = new GearAdapter(this, mGearList, R.layout.gear_list_item);
         mListView = getListView();
+        mNoItemsTextView = (TextView) findViewById(R.id.noItemsTextView);
         setListAdapter(mAdapter);
+
+        mNoItemsTextView.setVisibility(View.INVISIBLE);
+
+        if (mGearList.size() == 0) {
+            mNoItemsTextView.setVisibility(View.VISIBLE);
+            mListView.setVisibility(View.INVISIBLE);
+        }
 
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -55,17 +61,6 @@ public class BrowseGearActivity extends ListActivity implements Serializable {
                 return false;
             }
         });
-    }
-
-
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-//        Gear thisGear = mGearList.get(position);
-//        //Gear gearItem;
-//        Intent intent = new Intent(this, GearActivity.class);
-//        intent.putExtra("Gear", thisGear);
-//        startActivity(intent);
     }
 
     @Override

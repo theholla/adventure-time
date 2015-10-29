@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 /**
- * Delete a gear item
- * Display all items
- * Show only available gear items in Browse Gear Page
+ * Don't let user remove an item that's currently checked out
+ * Don't let users get back to login screen
  s**/

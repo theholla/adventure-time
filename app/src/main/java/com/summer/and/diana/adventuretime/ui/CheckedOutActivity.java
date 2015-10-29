@@ -3,14 +3,16 @@ package com.summer.and.diana.adventuretime.ui;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.summer.and.diana.adventuretime.R;
-import com.summer.and.diana.adventuretime.adapters.GearAdapter;
+import com.summer.and.diana.adventuretime.adapters.CheckoutAdapter;
 import com.summer.and.diana.adventuretime.models.Gear;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 public class CheckedOutActivity extends ListActivity {
     private SharedPreferences mPreferences;
     private ArrayList<Gear> mGearList;
-    private GearAdapter mAdapter;
+    private CheckoutAdapter mAdapter;
     private ListView mListView;
 
     @Override
@@ -29,7 +31,7 @@ public class CheckedOutActivity extends ListActivity {
         mPreferences = getApplicationContext().getSharedPreferences("adventuretime", Context.MODE_PRIVATE);
         String username = mPreferences.getString("username", null);
         mGearList = (ArrayList) Gear.allCheckedOut(username);
-        mAdapter = new GearAdapter(this, mGearList);
+        mAdapter = new CheckoutAdapter(this, mGearList, R.layout.gear_list_item_checkedout);
         mListView = getListView();
         setListAdapter(mAdapter);
     }

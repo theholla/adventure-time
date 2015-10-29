@@ -42,10 +42,8 @@ public class Gear extends Model {
 
     public Gear(String lender, String item, String description) {
         mLender = lender;
-        //mBorrower = "";
         mItem = item;
         mDescription = description;
-        //mCheckoutDate = 2;
     }
 
     public long getCheckoutDate() {
@@ -132,5 +130,12 @@ public class Gear extends Model {
                 .where("borrower = ?", username)
                 .orderBy("item")
                 .execute();
+    }
+
+    public void returnItem() {
+        Gear item = Gear.find(this);
+        item.setCheckoutDate(0);
+        item.setBorrower("");
+        item.save();
     }
 }
