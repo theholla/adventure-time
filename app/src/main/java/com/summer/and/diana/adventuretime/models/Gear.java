@@ -97,4 +97,12 @@ public class Gear extends Model {
                 .where("lender = ?", username)
                 .execute();
     }
+
+    public static List all() {
+        return new Select()
+                .from(Gear.class)
+                .where("checkout_date = ?", 0)
+                .orderBy("item")
+                .execute();
+    }
 }

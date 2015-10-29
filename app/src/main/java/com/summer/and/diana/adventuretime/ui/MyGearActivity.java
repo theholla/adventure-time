@@ -60,7 +60,7 @@ public class MyGearActivity extends ListActivity {
                 String description = mDescriptionEditText.getText().toString().trim();
                 Gear newGear = new Gear(mCurrentUser, item, description);
                 newGear.save();
-                mGearList.add(newGear);
+                mGearList.add(0, newGear);
                 mAdapter.notifyDataSetChanged();
 
                 // Clears input and hides keyboard

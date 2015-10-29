@@ -1,18 +1,31 @@
 package com.summer.and.diana.adventuretime.ui;
 
+import android.app.ListActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.summer.and.diana.adventuretime.R;
+import com.summer.and.diana.adventuretime.adapters.GearAdapter;
+import com.summer.and.diana.adventuretime.models.Gear;
 
-public class BrowseGearActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class BrowseGearActivity extends ListActivity {
+    private ArrayList<Gear> mGearList;
+    private GearAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_gear);
+
+        mGearList = (ArrayList) Gear.all();
+
+        mAdapter = new GearAdapter(this, mGearList);
+        setListAdapter(mAdapter);
     }
 
     @Override
