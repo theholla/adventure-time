@@ -53,6 +53,9 @@ public class LoginActivity extends AppCompatActivity {
                                 .setPositiveButton(android.R.string.ok, null);
                         AlertDialog dialog = builder.create();
                         dialog.show();
+                        mUsername.setText("");
+                        mPassword.setText("");
+
                     }
                 }
             }

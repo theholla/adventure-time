@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -24,7 +26,6 @@ public class MyGearActivity extends ListActivity {
     private EditText mItemEditText, mDescriptionEditText;
     private Button mAddGearButton;
     private String mCurrentUser;
-    private ListView mListView;
     private ArrayList<Gear> mGearList;
     private GearAdapter mAdapter;
 
@@ -35,12 +36,19 @@ public class MyGearActivity extends ListActivity {
         setContentView(R.layout.activity_my_gear);
 
         mPreferences = getApplicationContext().getSharedPreferences("adventuretime", Context.MODE_PRIVATE);
+
         mAddGearButton = (Button) findViewById(R.id.addGearButton);
         mItemEditText = (EditText) findViewById(R.id.itemEditText);
         mDescriptionEditText = (EditText) findViewById(R.id.descriptionEditText);
         mCurrentUser = mPreferences.getString("username", null);
-        mListView = getListView();
-        mGearList = (ArrayList) Gear.allFromUser(mUser);
+        mGearList = (ArrayList) Gear.allFromUser(mCurrentUser);
+
+//         Might need these to start initial list
+//        Gear newGear = new Gear(mCurrentUser, "Backpack", "Women's Large");
+//        newGear.save();
+//        mGearList.add(newGear);
+
+        mUser = User.find(mCurrentUser);
 
         mAdapter = new GearAdapter(this, mGearList);
         setListAdapter(mAdapter);
@@ -52,6 +60,17 @@ public class MyGearActivity extends ListActivity {
                 String description = mDescriptionEditText.getText().toString().trim();
                 Gear newGear = new Gear(mCurrentUser, item, description);
                 newGear.save();
+                mGearList.add(newGear);
+                mAdapter.notifyDataSetChanged();
+
+                // Clears input and hides keyboard
+                mItemEditText.setText("");
+                mDescriptionEditText.setText("");
+                InputMethodManager inputManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
     }

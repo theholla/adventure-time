@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 /**
- * Tell List View that gear_list_item is 1 list item's template
  * Delete a gear item
  * Display all items
  * Show only available gear items in Browse Gear Page

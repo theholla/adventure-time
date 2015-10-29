@@ -39,7 +39,7 @@ public class Gear extends Model {
 
     public Gear(String lender, String item, String description) {
         mLender = lender;
-        mBorrower = null;
+        mBorrower = "";
         mItem = item;
         mDescription = description;
         mCheckoutDate = 0;
@@ -91,10 +91,10 @@ public class Gear extends Model {
         mDescription = description;
     }
 
-    public static List allFromUser(User user) {
+    public static List allFromUser(String username) {
         return new Select()
                 .from(Gear.class)
-                .where("lender = ?", user.getUsername())
+                .where("lender = ?", username)
                 .execute();
     }
 }
